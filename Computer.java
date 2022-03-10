@@ -69,7 +69,10 @@ public class Computer extends Player
             return;
         if(GameManager.getMoveCounter() == 1)
         {
-            //This will only be executed on the second turn
+            //These will only be executed on the second turn
+            if(blockBottomRightCorner(gameManager))
+                return;
+            
             if(blockTriangleFormation(gameManager))
                 return;
         }
@@ -86,6 +89,33 @@ public class Computer extends Player
             secondMove(gameManager);
         }
     }
+
+    /*
+    Blocks this type of formation
+    - - -
+    - O X
+    - X -
+    */
+
+    private boolean blockBottomRightCorner(final GameManager gameManager)
+    {
+        if(gameManager.getGrid().getGridValue(2, 1) == gameManager.getHuman().getMarkType())
+        {
+            if(gameManager.getGrid().getGridValue(1, 2) == gameManager.getHuman().getMarkType())
+            {
+                gameManager.getGrid().setGridValue(this.getMarkType(), 2, 0);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+    Blocks this type of formation
+    - - X
+    - O -
+    - X -
+    */
 
     private boolean blockTriangleFormation(final GameManager gameManager)
     {
